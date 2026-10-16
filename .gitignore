@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Results of Search algos ran locally
+results/
+
+# Local Notes
+notes.txt
