@@ -20,14 +20,14 @@ logger = logging.getLogger(__name__)
 from elementSearches import (
     dataDefinitionSearch, fieldSearch, formSearch, formulaSearch,
     lifecycleElementSearch, objectTypeGroupSearch, objectTypeSearch,
-    reportSearch, roleSearch, userGroupSearch,
+    reportSearch, roleSearch
 )
 
 SEARCHES = {
     "object-types": objectTypeSearch, "object-type-groups": objectTypeGroupSearch,
     "data-definitions": dataDefinitionSearch, "fields": fieldSearch,
-    "formula": formulaSearch, "user-groups": userGroupSearch, "forms": formSearch,
-    "reports": reportSearch, "lifecycle-elements": lifecycleElementSearch, "roles": roleSearch,
+    "formula": formulaSearch,  "forms": formSearch,"reports": reportSearch, 
+    "lifecycle-elements": lifecycleElementSearch, "roles": roleSearch,
 }
 from dotenv import load_dotenv
 
@@ -87,7 +87,7 @@ def parse_args():
     parser.add_argument(
         "--orchestration-events",
         action="store_true",
-        help="Add orchestration event and consuming orchestration event sheets to lifecycle output.",
+        help="Add orchestration event and consuming orchestration event tracing results to lifecycle output.",
     )
     parser.add_argument("--tag", default="element_search", help="Prefix for the Excel workbook.")
     return parser.parse_args()
@@ -100,7 +100,7 @@ def main():
     api_key = args.api_key or AVAILABLE_ENVS.get(input(f"Select Resolver Environment ({', '.join(AVAILABLE_ENVS)}): ").strip())
     selected = args.search or input(f"Searches ({', '.join(SEARCHES)}), comma-separated: ").replace(" ", "").split(",")
     if "lifecycle-elements" in selected and not args.orchestration_events:
-        include_orchestration_events = input("Include orchestration event sheets? [y/N]: ").strip().lower() in {"y", "yes"}
+        include_orchestration_events = input("Include orchestration event tracing? [y/N]: ").strip().lower() in {"y", "yes"}
         args.orchestration_events = include_orchestration_events
     invalid = set(selected) - SEARCHES.keys()
     if invalid:

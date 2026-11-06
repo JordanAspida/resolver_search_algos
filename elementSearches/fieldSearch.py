@@ -1,4 +1,4 @@
-from .common import cached, get_fields, store
+from .common import cached, store
 import logging
 logger = logging.getLogger(__name__)
 
@@ -11,7 +11,7 @@ def search(client):
         return result
     
     used, unused = [], []
-    for field in get_fields(client):
+    for field in client.fields.get_all_fields(client):
         logger.info(f"Searching use of field: {field.name} ({field.id}) ...")
         object_types = {obj_type.id: obj_type for obj_type in client.fields.get_all_obj_types_for_field(field.id)}
         if object_types:

@@ -1,3 +1,4 @@
 python-dotenv
 pandas
 openpyxl
+-e ./resolver_sdk

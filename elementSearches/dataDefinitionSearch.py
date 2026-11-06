@@ -1,4 +1,4 @@
-from .common import cached, get_data_definitions, store
+from .common import cached, store
 
 
 LABEL = "DataDefinitions"
@@ -9,9 +9,8 @@ def search(client):
         return result
 
     used, unused = [], []
-    for definition in get_data_definitions(client):
-        print(definition.id)
-        uses = client.data_definitions.get_data_definition_dependents(data_definition_id=definition.id) # MAKE ACTUAL SDK ENPOINT WITH PYDANTIC SCHEMA
+    for definition in client.data_definitions.get_all_data_definitions():
+        uses = client.data_definitions.get_data_definition_dependents(data_definition_id=definition.id)
 
         (used if any(uses.model_dump().values()) else unused).append(
             {**definition.model_dump(), **uses.model_dump()} if any(uses.model_dump().values()) else definition.model_dump()
